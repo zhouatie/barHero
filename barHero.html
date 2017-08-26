@@ -23,11 +23,12 @@
             top:10%;
             margin-left: -100px;
             text-align: center;
+            color:darkorange;
         }
         #page {
             width:640px;
             height:960px;
-            background-color:yellow;
+            background:linear-gradient(to bottom,#fff 0%,#fff 20%,skyblue 100%);
             position:relative;
             overflow:hidden;
         }
@@ -262,6 +263,7 @@
                 bottom.appendChild(li);
                 li.style.width=Math.random()*70+30+"px";
                 li.style.right=Math.random()*(490-li.offsetWidth)+"px";
+                li.style.background = "rgb("+Math.floor(Math.random()*255)+","+Math.floor(Math.random()*255)+","+Math.floor(Math.random()*255)+")";
                 span.style.right=li.style.right
             }
 
@@ -297,7 +299,7 @@
 <div id="page">
         <div id="hero">
             <ul class="bottom">
-                <li class="one"></li>
+                <li class="one" style="background: yellow"></li>
             </ul>
             <span></span>
         </div>
