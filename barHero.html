@@ -8,6 +8,12 @@
         * {
             margin:0;
             padding:0;
+            -webkit-touch-callout:none;
+            -webkit-user-select:none;
+            -khtml-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
         }
         h1 {
             font-size: 100px;
@@ -138,6 +144,7 @@
     </style>
     <script>
         window.onload=function() {
+            window.ontouchstart = function(e) { e.preventDefault(); };
             function view() {
                 var w = document.documentElement.clientWidth;
                 var h = document.documentElement.clientHeight;
