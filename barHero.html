@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=640,user-scalable=no">
+    <title>Document</title>
+    <style>
+        * {
+            margin:0;
+            padding:0;
+        }
+        h1 {
+            font-size: 100px;
+            position: absolute;
+            width:200px;
+            left:50%;
+            top:10%;
+            margin-left: -100px;
+            text-align: center;
+        }
+        #page {
+            width:640px;
+            height:960px;
+            background-color:yellow;
+            position:relative;
+        }
+        #mask {
+            width:100%;
+            height:100%;
+            position: fixed;
+            left:0;
+            top:0;
+            background:rgba(0,0,0,0.7);
+            display: none;
+            z-index: 10;
+            text-align: center;
+        }
+        #mask>a {
+            font-size:300px;
+            font-weight: bold;
+            text-decoration: none;
+            color:white;
+            position: absolute;
+            left:50%;
+            top:30%;
+            margin-left: -150px;
+            transform:translateY(800px);
+            text-align: center;
+        }
+        #mask>a:nth-of-type(2){
+            font-size:50px;
+            top:60%;
+            margin-left:-100px;
+            border:5px solid yellow;
+            border-radius: 40px;
+            width:200px;
+            height:65px;
+            padding-top: 15px;
+            background:green;
+            box-shadow: 2px 2px #cacaca;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+        .a {
+            width:150px;
+            height:100px;
+            position: absolute;
+            top:50%;
+            background-color: blue;
+        }
+        /*#wrap {*/
+            /*width:100%;*/
+            /*position: absolute;*/
+            /*bottom:0;*/
+            /*float: right;*/
+        /*}*/
+        #hero {
+            width:100%;
+            height:300px;
+            position:absolute;
+            bottom:0;
+            right:0;
+        }
+        ul {
+            width:100%;
+            height:100%;
+            list-style: none;
+            position:absolute;
+            bottom:0;
+            right:0;
+        }
+        ul>li {
+            position: absolute;
+            right:0;
+            height:300px;
+            width:100px;
+            background-color: black;
+            transition:0.5s;
+        }
+        ul>li:nth-of-type(1) {
+            right:490px;
+        }
+        span {
+            position:absolute;
+            right:0;
+            bottom:300px;
+            width:10px;
+            background-color: green;
+            transform-origin:right bottom ;
+        }
+        span:nth-of-type(1){
+            right:490px;
+        }
+        #man {
+            width:50px;
+            height:50px;
+            border-radius: 25px;
+            background-color:red;
+            position: absolute;
+            bottom:300px;
+            transition:0.5s;
+        }
+        .rotate {
+            transform:rotate(90deg)
+        }
+        .trans {
+            transition:0.5s;
+        }
+        @keyframes down {
+            from {transform:translateY(800px);opacity: 0}
+            to {transform:translateY(0);opacity: 1}
+        }
+        .animation {
+            animation:down 1s forwards;
+        }
+    </style>
+    <script>
+        window.onload=function() {
+
+            function view() {
+                var w = document.documentElement.clientWidth;
+                var h = document.documentElement.clientHeight;
+                return {w: w, h: h}
+            }
+
+            var index = 0;
+            var hero = document.getElementById("hero");
+            var wrap = document.getElementById("wrap");
+            var page = document.getElementById("page");
+            var mask = document.getElementById("mask");
+            var refresh = document.getElementById("refresh");
+            var bottom=document.getElementsByTagName("ul")[0];
+            var a_one=document.getElementsByTagName("a")[0];
+            var h=document.getElementsByTagName("h1")[0];
+            var man=null;
+            var onOff=false;
+            var timer=null;
+            init();
+
+            function init() {
+                page.style.height = view().h + "px";
+                createHero(index);
+                man=document.getElementById("man");
+                refresh.addEventListener("touchstart",function() {
+                    location.reload();
+                })
+                createLi()
+                bind();
+            }
+
+            function bind() {
+                document.addEventListener("touchstart",fnStart)
+            }
+
+            function moveMan() {
+                var nextLi=bottom.children[index+1];
+                var bar=document.getElementsByTagName("span");
+                console.log(index+1)
+                setTimeout(function(){
+                    //debugger;
+                    var aa=bar[index].offsetHeight+bar[index].offsetWidth+bar[index].offsetLeft;
+                    var bool=aa>nextLi.offsetLeft && aa<nextLi.offsetLeft+nextLi.offsetWidth;
+                    console.log(bool)
+                    if(bool){
+                        man.style.left=nextLi.offsetLeft+nextLi.offsetWidth-50+"px";
+                        go()
+                    }else{
+                        goDie(bar[index].offsetHeight,bar[index].offsetLeft)
+                    }
+                },500)
+                function go(){
+                    setTimeout(function(){
+                        var lis=document.getElementsByTagName("li");
+                        var x=nextLi.offsetLeft+nextLi.offsetWidth-100;
+                        for(var i=0;i<lis.length;i++){
+                            lis[i].style.left=lis[i].offsetLeft+"px";
+                            lis[i].style.left=lis[i].offsetLeft-x+"px";
+                            bar[i].style.left=bar[i].offsetLeft+"px";
+                            bar[i].style.left=bar[i].offsetLeft-x+"px";
+                        }
+                        man.style.left=man.offsetLeft+"px";
+                        man.style.left=100-man.offsetWidth+"px";
+                        setTimeout(function() {
+                            createLi();
+                            score()
+                        },500)
+                    },500)
+                bind()
+                }
+            }
+            function goDie(x,xL) {
+                var on=true;
+                man.style.left=x+xL+"px";
+                man.addEventListener("webkitTransitionEnd",function() {
+                    if(!on){ return}
+                    on=false
+                    man.style.transform="translateY(400px)";
+                    mask.style.display="block";
+                    var a=document.getElementsByTagName("a");
+                    for(var i=0;i<a.length;i++){
+                        a[i].className="animation";
+                        console.log(a[i])
+                    }
+                    a[0].innerHTML=score();
+                    a[0].style.marginLeft=-a[0].offsetLeft/2+"px";
+                })
+                return false;
+            }
+            function fnStart(e) {
+                if(onOff){return}
+                onOff=true;
+                var touch=e.changedTouches[0];
+                var long=0;
+                timer=setInterval(function() {
+                    long+=3;
+                    barHeight(long)
+                },1)
+            }
+
+            function fnEnd() {
+                if(!onOff){return}
+                onOff=false;
+                clearInterval(timer);
+                rotateBar();
+                moveMan();
+                document.removeEventListener("touchstart",fnStart)
+            }
+
+            function createLi(){
+                var span=document.createElement("span");
+                span.style.right=man.style.right;
+                hero.appendChild(span)
+                var li=document.createElement("li");
+                bottom.appendChild(li);
+                li.style.width=Math.random()*70+30+"px";
+                li.style.right=Math.random()*(490-li.offsetWidth)+"px";
+                span.style.right=li.style.right
+            }
+
+            function score() {
+                index++;
+                h.innerHTML=index;
+                return index;
+            }
+            function rotateBar(){
+                var bar=document.getElementsByTagName("span")[index];
+                bar.style.transition="0.5s";
+                bar.className="rotate";
+            }
+
+            function barHeight(long) {
+                var bar=document.getElementsByTagName("span");
+                var bar=bar[index];
+                bar.style.height=long+"px";
+                document.addEventListener("touchend",fnEnd)
+            }
+
+            function createHero(index) {
+                var lis=bottom.children;
+                var div = document.createElement("div");
+                div.id = "man";
+                div.style.left =100+"px";
+                hero.appendChild(div);
+            }
+        };
+    </script>
+</head>
+<body>
+<div id="page">
+        <div id="hero">
+            <ul class="bottom">
+                <li class="one"></li>
+            </ul>
+            <span></span>
+        </div>
+        <div id="mask">
+            <a href="javascript:;"></a>
+            <a id="refresh" href="javascript:;">重来</a>
+        </div>
+        <h1>0</h1>
+</div>
+</body>
+</html>
