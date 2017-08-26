@@ -143,8 +143,23 @@
             animation:down 1s forwards;
         }
     </style>
+    
+</head>
+<body>
+<div id="page">
+        <div id="hero">
+            <ul class="bottom">
+                <li class="one" style="background: yellow"></li>
+            </ul>
+            <span></span>
+        </div>
+        <div id="mask">
+            <a href="javascript:;"></a>
+            <a id="refresh" href="javascript:;">重来</a>
+        </div>
+        <h1>0</h1>
+</div>
     <script>
-        window.onload=function() {
             window.ontouchstart = function(e) { e.preventDefault(); };
             function view() {
                 var w = document.documentElement.clientWidth;
@@ -293,22 +308,6 @@
                 div.style.left =100+"px";
                 hero.appendChild(div);
             }
-        };
     </script>
-</head>
-<body>
-<div id="page">
-        <div id="hero">
-            <ul class="bottom">
-                <li class="one" style="background: yellow"></li>
-            </ul>
-            <span></span>
-        </div>
-        <div id="mask">
-            <a href="javascript:;"></a>
-            <a id="refresh" href="javascript:;">重来</a>
-        </div>
-        <h1>0</h1>
-</div>
 </body>
 </html>
