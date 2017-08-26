@@ -50,14 +50,14 @@
             color: white;
             position: absolute;
             left: 0;
-            top: 30%;
+            top: 10%;
             transform: translateY(800px);
             text-align: center;
             width: 100%;
         }
         #mask>a:nth-of-type(2){
             font-size: 50px;
-            top: 60%;
+            top: 40%;
             margin-left: -100px;
             border: 5px solid yellow;
             border-radius: 40px;
@@ -178,7 +178,7 @@
             }
 
             function bind() {
-                document.addEventListener("touchstart",fnStart)
+                hero.addEventListener("touchstart",fnStart)
             }
 
             function moveMan() {
