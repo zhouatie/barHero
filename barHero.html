@@ -135,7 +135,7 @@
     </style>
     <script>
         window.onload=function() {
-
+            document.addEventListener('touchmove',function(){return false;});
             function view() {
                 var w = document.documentElement.clientWidth;
                 var h = document.documentElement.clientHeight;
